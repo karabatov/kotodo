@@ -7,7 +7,7 @@ from kauth import create_user, check_user
 
 app = Bottle()
 
-@app.route('/')
+@app.get('/')
 def index():
     username = request.get_cookie('U', secret=secret())
     password = request.get_cookie('P', secret=secret())
@@ -16,7 +16,7 @@ def index():
     else:
         return template('login', error=None)
 
-@app.post('/login')
+@app.post('/')
 def postlogin():
     username = request.forms.get('username')
     password = request.forms.get('password')

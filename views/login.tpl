@@ -6,7 +6,7 @@
 <h2>{{error}}</h2>
 %end
 
-<form action="login" method="post">
+<form action="/" method="post">
 <p>Username:&nbsp;<input name="username" type="text" size="16"></p>
 <p>Password:<input name="password" type="password" size="16"></p>
 <input type="submit" value="Login">
