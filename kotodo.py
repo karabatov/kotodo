@@ -4,6 +4,7 @@ bottle.debug(True)
 
 from ksecret import secret
 from kauth import create_user, check_user
+from kitems import get_items, add_item
 
 app = Bottle()
 
@@ -12,7 +13,8 @@ def index():
     username = request.get_cookie('U', secret=secret())
     password = request.get_cookie('P', secret=secret())
     if check_user(username, password):
-        return template('todo')
+        items = get_items(username)
+        return template('todo', username=username, items=items)
     else:
         return template('login', error=None)
 
@@ -43,6 +45,14 @@ def postregister():
         response.set_cookie("U", username, secret=secret())
         response.set_cookie("P", password, secret=secret())
         redirect('/')
+
+@app.post('/item/add')
+def itemadd():
+    text = request.forms.get('text')
+    owner = request.forms.get('owner')
+    newitem = add_item(text, owner)
+    if newitem:
+        return template('item', todo=newitem)
 
 def ret_kotoapp():
     return app
