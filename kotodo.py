@@ -1,12 +1,16 @@
 import bottle
-from bottle import redirect, request, response, template, view, route, get, post, error, Bottle
+from bottle import redirect, request, response, template, view, route, get, post, error, Bottle, static_file
 bottle.debug(True)
 
 from ksecret import secret
 from kauth import create_user, check_user
-from kitems import get_items, add_item
+from kitems import get_items, add_item, remove_item, timer_start, timer_stop
 
 app = Bottle()
+
+@app.route('/static/:filename')
+def server_static(filename):
+    return static_file(filename, root='./static')
 
 @app.get('/')
 def index():
@@ -53,6 +57,24 @@ def itemadd():
     newitem = add_item(text, owner)
     if newitem:
         return template('item', todo=newitem)
+
+@app.post('/item/timer/start')
+def timerstart():
+    itemid = request.forms.get('itemid')
+    if itemid:
+        ts = timer_start(itemid)
+        return str(int(ts))
+    else:
+        return '0'
+
+@app.post('/item/timer/stop')
+def timerstop():
+    itemid = request.params.get('itemid', None)
+    if itemid:
+        ts = timer_stop(itemid)
+        return str(int(ts))
+    else:
+        return 0
 
 def ret_kotoapp():
     return app
