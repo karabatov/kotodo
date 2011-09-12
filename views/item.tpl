@@ -13,4 +13,5 @@ Stop timer\\
 Start timer\\
 %end
 </a>
-<a class="delete {{todo.get('_id')}}" href="#">Delete</a></li>
+<a class="delete {{todo.get('_id')}}" href="#/{{todo.get('_id')}}">Delete</a>
+<input type="hidden" class="hinput {{todo.get('_id')}}" name="ts" value="0" /></li>
