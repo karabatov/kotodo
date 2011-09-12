@@ -8,7 +8,7 @@ function hms(seco) {
 	return hours+"h "+minutes+"m "+seconds+"s";
 }
 $(document).ready(function() {
-    $("#additem").submit(function(event) {
+    $("#additem").live("submit", function(event) {
         event.preventDefault();
         $.post("item/add", $("#additem").serialize(), function(data) {
             $("#items > ul").append(data);
@@ -16,7 +16,7 @@ $(document).ready(function() {
         });
     });
     console.log("jQuery loaded!")
-    $(".s_timer").click(function(event) {
+    $(".s_timer").live("click", function(event) {
         event.preventDefault();
         var itemid = this.href.split("/").pop();
         console.log("itemid: " + itemid);

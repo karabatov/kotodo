@@ -2,3 +2,4 @@
 *.dll
 ksecret.py
 .DS_*
+*.swp
