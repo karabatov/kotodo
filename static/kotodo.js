@@ -7,6 +7,16 @@ function hms(seco) {
 	if (seconds < 10) { seconds = "0" + seconds.toString() };
 	return hours+"h "+minutes+"m "+seconds+"s";
 }
+function startTimer(itemid) {
+$("span#" + itemid).everyTime(1000, itemid, function() {
+	//console.log("Now in " + itemid + " timer!");
+	//console.log("input val = " + $("input.hinput." + itemid).val());
+	var seco = parseInt($("input.hinput." + itemid).val()) + 1;
+	//console.log("seco = " + seco);
+	$(this).text(hms(seco));
+	$("input.hinput." + itemid).val(seco);
+});
+}
 $(document).ready(function() {
     $("#additem").live("submit", function(event) {
         event.preventDefault();
@@ -15,33 +25,32 @@ $(document).ready(function() {
             $("#additem")[0].reset();
         });
     });
-    console.log("jQuery loaded!")
+    //console.log("jQuery loaded!")
     $(".s_timer").live("click", function(event) {
         event.preventDefault();
         var itemid = this.href.split("/").pop();
-        console.log("itemid: " + itemid);
+        //console.log("itemid: " + itemid);
         if (this.text == "Start timer") {
             $.post("item/timer/start", {"itemid": itemid}, function(data) {
                 console.log("data = " + data);
                 // 4e6d39d4fc4e0710e1000000
                 $("input.hinput." + itemid).val(data);
-                $("span#" + itemid).everyTime(1000, itemid, function() {
-                    console.log("Now in " + itemid + " timer!");
-                    console.log("input val = " + $("input.hinput." + itemid).val());
-                    var seco = parseInt($("input.hinput." + itemid).val()) + 1;
-                    console.log("seco = " + seco);
-                    $(this).text(hms(seco));
-                    $("input.hinput." + itemid).val(seco);
-                });
+                startTimer(itemid);
                 $(".s_timer." + itemid).text("Stop timer");
             });
         } else {
             $.post("item/timer/stop", {"itemid": itemid}, function(data) {
-            	console.log("data = " + data);
+            	//console.log("data = " + data);
                 $("span#" + itemid).text(hms(parseInt(data)));
                 $("span#" + itemid).stopTime(itemid);
                 $(".s_timer." + itemid).text("Start timer");
             });
         }
+    });
+    $(".s_timer").each( function() {
+    	if (this.text == "Stop timer") {
+    		var itemid = this.href.split("/").pop();
+    		startTimer(itemid);
+    	}
     });
 });
