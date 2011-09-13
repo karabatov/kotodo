@@ -47,6 +47,19 @@ $(document).ready(function() {
             });
         }
     });
+    $(".delete").live("click", function(event) {
+        event.preventDefault();
+        var itemid = this.href.split("/").pop();
+        var answer = confirm("Delete item ?");
+        if (answer == true) {
+			$.post("item/delete", {"itemid": itemid}, function(data) {
+				// 4e6d39d4fc4e0710e1000000
+				if (data == "ok") {
+					$("li.ili." + itemid).fadeOut(500, function() { $(this).remove(); });
+				}
+			});
+		}
+    });    
     $(".s_timer").each( function() {
     	if (this.text == "Stop timer") {
     		var itemid = this.href.split("/").pop();

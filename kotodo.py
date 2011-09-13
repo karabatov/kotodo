@@ -75,6 +75,15 @@ def timerstop():
         return str(int(ts))
     else:
         return 0
+        
+@app.post('/item/delete')
+def itemdelete():
+    itemid = request.params.get('itemid', None)
+    if itemid:
+        remove_item(itemid)
+        return 'ok'
+    else:
+        return 'itemid not found'
 
 def ret_kotoapp():
     return app

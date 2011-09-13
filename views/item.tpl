@@ -5,7 +5,7 @@
 %else:
 %ts = int(todo.get('ts', 0))
 %end
-<li><span id="{{todo.get('_id')}}">{{hms(ts)}}</span> <span>{{todo.get('t')}}</span> <a class="i_edit {{todo.get('_id')}}" href="#">Edit</a> <a class="s_timer {{todo.get('_id')}}" href="#/{{todo.get('_id')}}">\\
+<li class="ili {{todo.get('_id')}}"><span id="{{todo.get('_id')}}">{{hms(ts)}}</span> <span>{{todo.get('t')}}</span> <a class="i_edit {{todo.get('_id')}}" href="#">Edit</a> <a class="s_timer {{todo.get('_id')}}" href="#/{{todo.get('_id')}}">\\
 %if todo.get('tr', False):
 Stop timer\\
 %else:
